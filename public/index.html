@@ -1,0 +1,84 @@
+<!DOCTYPE html> <html>
+<head><title>single page app 1</title> <meta charset="utf-8">
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-route.js"></script>
+
+</head>
+<body ng-app="mainApp">
+<div class='container'>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Our Website</a>
+		</div>
+		<div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#home">Home</a></li>
+				<li><a href="#about">About Page</a></li>
+				<li><a href="#product">Product Page</a></li>
+			</ul>
+		</div>
+		</div>
+	</nav>
+
+	<div id="main">
+		<div ng-view> </div>    <!-- partial pages substituted here -->
+	</div>
+
+	<div class="panel-footer">
+	    <p id='time_loaded'><p>   <!-- time of initial page load  -->
+		<p>Footer items here: &nbsp; &copy; Company | Privacy | Whatever</p>
+	</div>
+
+</div> <!-- end class='container'  -->
+</body></html>
+<script> 
+      document.getElementById('time_loaded').innerHTML = 'Page loaded: ' + new Date().toLocaleTimeString()
+   </script>
+   
+<script>
+
+var app = angular.module('mainApp', ['ngRoute']);
+
+app.config(function($routeProvider) {
+    $routeProvider
+      .when('/', {
+          templateUrl : 'partials/home.html',    // path to the partial page
+          controller : 'mainCtrl'       // controller name for that page
+      })
+      .when('/home', {
+          templateUrl : 'partials/home.html',
+          controller : 'mainCtrl'
+      })
+      .when('/about', {
+          templateUrl : 'partials/about.html',    // path to the partial page
+          controller : 'aboutCtrl'         // controller name for that page
+      })
+      .when('/product', {
+          templateUrl : 'partials/product.html',    
+          controller : 'productCtrl'
+      })
+      .otherwise({
+          redirectTo: 'partials/home.html'        // any other URL goes to home
+      });
+});
+          /*   a controller for each page  */
+app.controller('mainCtrl', function($scope) {
+    $scope.home_msg = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ';
+});
+
+app.controller('aboutCtrl', function($scope) {
+    $scope.about_msg = 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.';
+});
+
+app.controller('productCtrl', function($scope) {
+    $scope.product_msg = 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+});
+
+</script>
